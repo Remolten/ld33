@@ -1,1 +1,5 @@
+#Finder files
 .DS_Store
+
+#Piskel files
+*.piskel
