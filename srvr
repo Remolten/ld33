@@ -1,0 +1,2 @@
+osascript -e 'tell application "Terminal" to do script "cd '`pwd`';python -m SimpleHTTPServer 8080;exit"'
+open -a "Google Chrome" http://localhost:8080
