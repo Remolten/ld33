@@ -1,5 +1,5 @@
 var logo;
-var wait = 5;
+var wait = 2;
 var waitCT = 0;
 
 var Splash = {
