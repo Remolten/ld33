@@ -1,4 +1,7 @@
+var tileSize = 32;
+
 var player, isoGroup, cursorPos;
+var entities = [];
 
 var turnState = true;
 var moveCT = 0;
@@ -29,8 +32,8 @@ var Game = {
         player.movement = new this.Movement(player);
         player.anchor.set(0.5, 0);*/
         player = new Entity('player');
-        player.add('sprite', new Sprite(-8, -10, 32, 'player', 0, playerGroup));
-        player.add('movement', new Movement());
+        player.add(new Sprite(-8, -10, 32, 'player', 0, playerGroup, 0.5, 0), new Movement(tileSize, 1));
+        entities.add(player);
         
         this.spawnTiles();
         this.spawnEnemies();
@@ -56,14 +59,14 @@ var Game = {
     update: function() {
         game.iso.unproject(game.input.activePointer.position, cursorPos);
         
-        isoGroup.forEach(function(tile) {
+        /*isoGroup.forEach(function(tile) {
             tile.collision.highlight();
-        });
+        });*/
         
-        enemyGroup.forEach(function(enemy) {
+        /*enemyGroup.forEach(function(enemy) {
             enemy.collision.highlight();
             enemy.collision.damage();
-        });
+        });*/
         
         if (turnState) {
             if ((this.cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.W)) && player.isoY > 0 && !move) {
@@ -109,7 +112,7 @@ var Game = {
             }
         }
         
-        enemyGroup.forEach(function(enemy) {
+        /*enemyGroup.forEach(function(enemy) {
             enemyGroup.forEach(function(enemy2) {
                 if (enemy.isoX == enemy2.isoX && enemy.isoY == enemy2.isoY && enemy != enemy2) {
                     switch(enemy.oldType) {
@@ -143,7 +146,7 @@ var Game = {
             if (player.isoX == enemy.isoX && player.isoY == enemy.isoY) {
                 enemy.destroy();
             }
-        });
+        });*/
         
         game.iso.simpleSort(isoGroup);
         game.iso.simpleSort(enemyGroup);
@@ -152,12 +155,15 @@ var Game = {
                          
     spawnTiles: function() {
         var tile;
-        for (var xx = 0; xx < 256; xx += 32) {
-            for (var yy = 0; yy < 256; yy += 32) {
-                tile = game.add.isoSprite(xx, yy, 0, 'tile', 0, isoGroup);
-                tile.collision = new this.Collision(isoGroup, tile.isoZ, tile.isoZ + 4);
-                tile.selected = false;
-                tile.anchor.set(0.5, 0);
+        for (var xx = 0; xx < 256; xx += tileSize) {
+            for (var yy = 0; yy < 256; yy += tileSize) {
+                //tile = game.add.isoSprite(xx, yy, 0, 'tile', 0, isoGroup);
+                tile = new Entity('tile' + xx + '|' + yy);
+                tile.add(new Sprite(xx, yy, 0, 'tile', 0, isoGroup, 0.5, 0));
+                entities.add(tile);
+                //tile.collision = new this.Collision(isoGroup, tile.isoZ, tile.isoZ + 4);
+                //tile.selected = false;
+                //tile.anchor.set(0.5, 0);
             }
         }
     },
@@ -169,10 +175,13 @@ var Game = {
         for (var i = 0; i < 4; i++) {
             rand = Math.floor(Math.random() * (max - min + 1)) + min;
             rand2 = Math.floor(Math.random() * (max - min + 1)) + min;
-            enemy = game.add.isoSprite(32 * rand - 8, 32 * rand2 - 10, 32, 'enemy', 0, enemyGroup);
-            enemy.movement = new this.Movement(enemy);
-            enemy.collision = new this.Collision(enemyGroup, enemy.isoZ, enemy.isoZ + 4);
-            enemy.anchor.set(0.5, 0);
+            enemy = new Entity('enemy' + i);
+            enemy.add(new Sprite(32 * rand - 8, 32 * rand2 - 10, 32, 'enemy', 0, enemyGroup, 0.5, 0), new Movement(tileSize, 1));
+            entities.add(enemy);
+            //enemy = game.add.isoSprite(32 * rand - 8, 32 * rand2 - 10, 32, 'enemy', 0, enemyGroup);
+            //enemy.movement = new this.Movement(enemy);
+            //enemy.collision = new this.Collision(enemyGroup, enemy.isoZ, enemy.isoZ + 4);
+            //enemy.anchor.set(0.5, 0);
         }
     },
     
@@ -217,9 +226,9 @@ var Game = {
                     break;
             }
         });
-    },
+    }//,
     
-    Collision: function(group, zNormal, zHighlight) {
+    /*Collision: function(group, zNormal, zHighlight) {
         this.highlight = function() {
             group.forEach(function(entity) {
                 var inBounds = entity.isoBounds.containsXY(cursorPos.x, cursorPos.y);
@@ -263,5 +272,5 @@ var Game = {
             entity.isoX += 32;
             entity.scale.x = 1;
         };
-    }
+    }*/
 };
