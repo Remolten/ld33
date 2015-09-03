@@ -1,1 +1,1 @@
-This is the repository for my Ludum Dare 33 Game.
+Repository for my upcoming elevator game.
