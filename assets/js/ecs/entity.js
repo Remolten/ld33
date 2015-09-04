@@ -23,6 +23,6 @@ class Entity {
     }
     
     has(cid) {
-        return this.components ? hasOwnProperty.call(this.components, key):false;
+        return this.components ? hasOwnProperty.call(this.components, cid):false;
     }
 }

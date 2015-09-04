@@ -1,5 +1,9 @@
 #Finder files
 .DS_Store
 
+#Graphics
+img
+*.png
+
 #Piskel files
 *.piskel
