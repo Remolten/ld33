@@ -1,28 +1,30 @@
+var 
+
 class Entity {
     constructor(id) {
         this.id = id;
-        this.components = {};
+        this._components = {};
     }
     
     get id() {
         return this.id;
     }
     
-    component(cid) {
-        return this.components[cid];
+    get components() {
+        return this._components;
+    }
+    
+    getComponent(id) {
+        return this._components[id];
     }
     
     add() {
         for (var i = 0; i < arguments.length; i++) {
-            this.components[arguments[i].cid] = arguments[i];
+            this._components[arguments[i].id] = arguments[i];
         }
     }
     
-    remove(cid) {
-        delete this.components[cid];
-    }
-    
-    has(cid) {
-        return this.components ? hasOwnProperty.call(this.components, cid):false;
+    remove(id) {
+        delete this._components[id];
     }
 }
