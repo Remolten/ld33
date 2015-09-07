@@ -1,16 +1,18 @@
-var Component = function() {};
-Component.prototype.id = 'component';
+var Component = {};
+Component.prototype = {
+    _id: 'component'
+};
 Object.defineProperty(Component.prototype, 'id', {
     get: function() {
-        return this.id;
+        return this._id;
     }
 });
 
-// Setters need to be changed still
-var Sprite = Object.create(Component);
+var Sprite = {};
+Sprite.prototype = Object.create(Component.prototype);
+Sprite.prototype._id = 'sprite';
 Sprite.prototype.init = function(x, y, img, frm) {
-    this.id = 'sprite';
-    this._sprite = game.add.sprite(x, y, img, frm);
+    this._sprite = game.add.sprite(x, y, img, frm || 0);
 };
 Object.defineProperties(Sprite.prototype, {
     sprite: {
@@ -30,9 +32,24 @@ Object.defineProperties(Sprite.prototype, {
         get: function() {
             return this._sprite.y;
         },
-        set: function() {
+        set: function(y) {
             this._sprite.y += y;
+        }
+    },
+    width: {
+        get: function() {
+            return this._sprite.width;
+        },
+        set: function(wdth) {
+            this._sprite.width += wdth;
+        }
+    },
+    height: {
+        get: function() {
+            return this._sprite.height;
+        },
+        set: function(hght) {
+            this._sprite.height += hght;
         }
     }
 });
-    
