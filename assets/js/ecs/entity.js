@@ -1,30 +1,30 @@
-var 
-
-class Entity {
-    constructor(id) {
-        this.id = id;
+var Entity = {};
+Entity.prototype = {
+    init: function(id) {
+        this._id = id;
         this._components = {};
-    }
-    
-    get id() {
-        return this.id;
-    }
-    
-    get components() {
-        return this._components;
-    }
-    
-    getComponent(id) {
+    },
+    getComponent: function(id) {
         return this._components[id];
-    }
-    
-    add() {
+    },
+    add: function() {
         for (var i = 0; i < arguments.length; i++) {
             this._components[arguments[i].id] = arguments[i];
         }
-    }
-    
-    remove(id) {
+    },
+    remove: function(id) {
         delete this._components[id];
     }
-}
+};
+Object.defineProperties(Entity.prototype, {
+    id: {
+        get: function() {
+            return this._id;
+        }
+    },
+    components: {
+        get: function() {
+            return this._components;
+        }
+    }
+});
