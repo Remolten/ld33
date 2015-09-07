@@ -1,9 +1,13 @@
 var System = {};
 System.prototype = {};
 
+var EntitySystem = {};
+EntitySystem.prototype = Object.create(System.prototype);
+//EntitySystem.prototype.
+
 var MovementSystem = {};
 MovementSystem.prototype = Object.create(System.prototype);
-MovementSystem.prototype.update = function(entities) {
+MovementSystem.prototype.update = function() {
     entities.forEach(function(entity) {
         if (entity.getComponent('controllable').controllable) {
             if ((cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.W)) && entity.getComponent('sprite').sprite.y > 0) {

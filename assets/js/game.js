@@ -1,4 +1,8 @@
-var entities;
+var entities = [];
+var cursors;
+
+//Temp
+var player;
 
 var Game = {
     preload: function() {
@@ -11,20 +15,16 @@ var Game = {
     },
 
     create: function() {
-        entities = game.add.group();
-        //var spriteGroup = game.add.group();
+        movementSystem = Object.create(MovementSystem.prototype);
 
-        // We need to init before adding
-        var player = Object.create(Entity.prototype);
+        player = Object.create(Entity.prototype);
         player.init('player');
         player.add(Object.create(Sprite.prototype));
-        player.sprite = player.getComponent('sprite');
-        player.sprite.init(0, 0, 'player');
-        player.sprite.x += 100;
-        // Groups are bugged???
-        //entities.add(player);
+        player.add(Object.create(Controllable.prototype));
+        player.getComponent('sprite').init(0, 0, 'player');
+        entities.push(player);
         
-        this.cursors = game.input.keyboard.createCursorKeys();
+        cursors = game.input.keyboard.createCursorKeys();
 
         game.input.keyboard.addKeyCapture([
             Phaser.Keyboard.LEFT,
@@ -39,23 +39,6 @@ var Game = {
     },
     
     update: function() {
-        //This would be a system
-        if ((this.cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.W)) && player.sprite.y > 0) {
-            player.movement.moveUp();
-            move = true;
-        }
-        else if ((this.cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.S)) && player.sprite.y < 256 - 64) {
-            player.movement.moveDown();
-            move = true;
-        }
-
-        if ((this.cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.A)) && player.sprite.x > 0) {
-            player.movement.moveLeft();
-            move = true;
-        }
-        else if ((this.cursors.right.isDown || game.input.keyboard.isDown(Phaser.Keyboard.D)) && player.sprite.x < 256 - 64) {
-            player.movement.moveRight();
-            move = true;
-        }*/
+        movementSystem.update();
     }
 };
