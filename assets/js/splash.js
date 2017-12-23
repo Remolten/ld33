@@ -1,5 +1,5 @@
 var logo;
-var wait = 2;
+var wait = 1;
 var waitCT = 0;
 
 var Splash = {
@@ -23,7 +23,7 @@ var Splash = {
         if (waitCT == 0)
             logo.animations.stop();
         else if (waitCT == 60 * wait)
-            logo.animations.play('logo', 1, false);
+            logo.animations.play('logo', 2, false);
         
         waitCT++;
     },

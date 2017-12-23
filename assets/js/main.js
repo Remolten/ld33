@@ -1,4 +1,3 @@
-'use strict';
 var game = new Phaser.Game(800, 400, Phaser.Auto, 'LD33 Game');
 
 game.state.add('splash', Splash);
